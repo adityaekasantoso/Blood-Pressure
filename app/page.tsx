@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useRouter } from "next/navigation"
 import { Loader2 } from "lucide-react"
 
@@ -12,7 +12,26 @@ export default function Home() {
   const [employeeId, setEmployeeId] = useState("")
   const [loading, setLoading] = useState(false)
   const [msg, setMsg] = useState("")
+
   const router = useRouter()
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    const focusInput = () => {
+      inputRef.current?.focus()
+    }
+
+    focusInput()
+
+    const interval = setInterval(focusInput, 500)
+
+    window.addEventListener("click", focusInput)
+
+    return () => {
+      clearInterval(interval)
+      window.removeEventListener("click", focusInput)
+    }
+  }, [])
 
   const submit = async () => {
     if (!employeeId.trim()) {
@@ -81,6 +100,7 @@ export default function Home() {
 
         <CardContent className="space-y-4">
           <Input
+            ref={inputRef}
             placeholder="Employee ID"
             value={employeeId}
             onChange={(e) => setEmployeeId(e.target.value)}
@@ -88,10 +108,11 @@ export default function Home() {
             onKeyDown={(e) => e.key === "Enter" && submit()}
             className="h-12 text-center text-5xl font-semibold"
           />
+
           <Button
             onClick={submit}
             disabled={loading}
-            className="h-11 w-full bg-gradient-to-r from-red-600 to-blue-600 text-base font-semibold text-white hover:from-red-700 hover:to-blue-700"
+            className="h-11 w-full bg-gradient-to-r from-red-600 to-blue-600 text-base font-semibold text-white"
           >
             {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             {loading ? "Processing..." : "Submit"}
