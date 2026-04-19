@@ -19,11 +19,10 @@ export default function ResumePage() {
   const [countdown, setCountdown] = useState(10)
   const router = useRouter()
 
-  // Fetch data dari API
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BP_API_URL}/bloodpress`)
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BP_API_URL}/bloodpress_db`)
         const json = await res.json()
         setData(json.data || null)
       } catch (err) {
@@ -34,7 +33,6 @@ export default function ResumePage() {
     fetchData()
   }, [])
 
-  // Countdown dan redirect
   useEffect(() => {
     const timer = setInterval(() => {
       setCountdown((prev) => prev - 1)

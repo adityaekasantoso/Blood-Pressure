@@ -38,7 +38,7 @@ export default function InstructionPage() {
   useEffect(() => {
     const intervalId = setInterval(async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BP_API_URL}/bloodpress`)
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BP_API_URL}/bloodpress_db`)
         if (!res.ok) throw new Error("Network response not ok")
         const json = await res.json()
 
