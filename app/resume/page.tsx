@@ -23,7 +23,7 @@ export default function ResumePage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch("http://10.72.102.138:3005/bloodpress")
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BP_API_URL}/bloodpress`)
         const json = await res.json()
         setData(json.data || null)
       } catch (err) {
